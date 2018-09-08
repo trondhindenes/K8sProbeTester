@@ -1,0 +1,43 @@
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: k8sprobetester-v1
+  namespace: default
+  labels:
+    app: k8sprobetester
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k8sprobetester
+  template:
+    metadata:
+      labels:
+        app: k8sprobetester
+    spec:
+      containers:
+      - image: "trondhindenes/k8sprobetester:latest"
+        name: k8sprobetester
+        env:
+          - name: START_WAIT_SECS
+            value: '15'
+          - name: SOME_OTHER_VAR
+            value: yasssd
+        #livenessProbe:
+        #  httpGet:
+        #    path: /healthz
+        #    port: 5000
+        #    httpHeaders:
+        #      - name: Host
+        #        value: KubernetesLivenessProbe
+        #  initialDelaySeconds: 60
+        #readinessProbe:
+        #  httpGet:
+        #    path: /healthz
+        #    port: 5000
+        #    httpHeaders:
+        #      - name: Host
+        #        value: KubernetesLivenessProbe
+        #  initialDelaySeconds: 60
+        #  failureThreshold: 2
